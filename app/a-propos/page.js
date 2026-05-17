@@ -1,14 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
-import { values } from "@/lib/data";
 import { images } from "@/lib/images";
+import { getSiteSettings, getValues } from "@/lib/supabase/queries";
 
 export const metadata = {
   title: "À propos",
 };
 
-export default function AProposPage() {
+export const revalidate = 60;
+
+export default async function AProposPage() {
+  const [settings, values] = await Promise.all([
+    getSiteSettings(),
+    getValues(),
+  ]);
   return (
     <>
       <PageHeader

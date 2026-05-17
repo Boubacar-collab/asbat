@@ -1,22 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
-import { materials } from "@/lib/data";
+import { getEquipment, getMaterials } from "@/lib/supabase/queries";
 
 export const metadata = {
   title: "Matériaux & Équipements",
 };
 
-const equipment = [
-  { name: "Pelleteuse", desc: "Location journalière ou mensuelle" },
-  { name: "Bétonnière", desc: "Capacités 350L à 500L" },
-  { name: "Échafaudage", desc: "Montage et démontage inclus" },
-  { name: "Groupe électrogène", desc: "Puissances 5 à 100 kVA" },
-  { name: "Niveleuse laser", desc: "Précision pour terrassement" },
-  { name: "Compresseur & outillage", desc: "Perforation et finition" },
-];
+export const revalidate = 60;
 
-export default function MateriauxPage() {
+export default async function MateriauxPage() {
+  const [materials, equipment] = await Promise.all([
+    getMaterials(),
+    getEquipment(),
+  ]);
   return (
     <>
       <PageHeader

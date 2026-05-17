@@ -1,10 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
 import Stats from "@/components/Stats";
-import { gallery, services } from "@/lib/data";
 import { images } from "@/lib/images";
+import {
+  getGallery,
+  getServices,
+  getSiteSettings,
+  getStats,
+} from "@/lib/supabase/queries";
 
-export default function Home() {
+export const revalidate = 60;
+
+export default async function Home() {
+  const [settings, services, gallery, stats] = await Promise.all([
+    getSiteSettings(),
+    getServices(),
+    getGallery(),
+    getStats(),
+  ]);
   return (
     <>
       <section className="gradient-hero relative min-h-[85vh] overflow-hidden">
@@ -20,7 +33,7 @@ export default function Home() {
         <div className="relative mx-auto flex min-h-[85vh] max-w-7xl flex-col justify-center px-4 py-24 sm:px-6 lg:px-8">
           <span className="animate-fade-up mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-asbat-green-light/30 bg-asbat-green/20 px-4 py-1.5 text-sm font-medium text-asbat-green-light">
             <span className="h-2 w-2 rounded-full bg-asbat-green-light" />
-            Leader en construction au Sénégal
+            {settings.tagline}
           </span>
           <h1 className="animate-fade-up animation-delay-100 max-w-4xl text-5xl font-bold leading-tight tracking-tight text-white opacity-0 [animation-fill-mode:forwards] sm:text-6xl lg:text-7xl">
             Bâtir l&apos;avenir avec{" "}
@@ -47,7 +60,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Stats />
+      <Stats stats={stats} />
 
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -95,7 +108,7 @@ export default function Home() {
                 Pourquoi choisir ASBAT ?
               </h2>
               <p className="mt-4 text-zinc-400">
-                Depuis plus de 15 ans, nous combinons expertise technique, matériaux
+                Depuis plus de {settings.experienceYears ?? 15} ans, nous combinons expertise technique, matériaux
                 de qualité et accompagnement personnalisé pour des réalisations
                 durables.
               </p>

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { images } from "@/lib/images";
+import { getSiteSettings } from "@/lib/supabase/queries";
 
 const links = [
   { href: "/services", label: "Services" },
@@ -10,7 +11,9 @@ const links = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const settings = await getSiteSettings();
+
   return (
     <footer className="bg-asbat-black text-zinc-300">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
@@ -69,18 +72,18 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2">
                 <span className="text-asbat-green">📍</span>
-                <span>Zone industrielle, Dakar, Sénégal</span>
+                <span>{settings.address}</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-asbat-green">📞</span>
-                <a href="tel:+221338000000" className="hover:text-white">
-                  +221 33 800 00 00
+                <a href={`tel:${settings.phoneHref}`} className="hover:text-white">
+                  {settings.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-asbat-green">✉️</span>
-                <a href="mailto:contact@asbat.sn" className="hover:text-white">
-                  contact@asbat.sn
+                <a href={`mailto:${settings.email}`} className="hover:text-white">
+                  {settings.email}
                 </a>
               </li>
             </ul>

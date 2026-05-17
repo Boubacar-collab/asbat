@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
-import { projects } from "@/lib/data";
+import { getProjects } from "@/lib/supabase/queries";
 
 export const metadata = {
   title: "Projets",
 };
+
+export const revalidate = 60;
 
 const typeColors = {
   Résidentiel: "bg-emerald-100 text-emerald-800",
@@ -14,7 +16,8 @@ const typeColors = {
   Public: "bg-amber-100 text-amber-800",
 };
 
-export default function ProjetsPage() {
+export default async function ProjetsPage() {
+  const projects = await getProjects();
   return (
     <>
       <PageHeader

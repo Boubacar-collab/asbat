@@ -1,11 +1,17 @@
 import PageHeader from "@/components/PageHeader";
 import ContactForm from "@/components/ContactForm";
+import { getSiteSettings } from "@/lib/supabase/queries";
 
 export const metadata = {
   title: "Contact",
 };
 
-export default function ContactPage() {
+export const revalidate = 60;
+
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
+  const hoursLines = String(settings.hours ?? "").split("\n");
+
   return (
     <>
       <PageHeader
@@ -22,26 +28,35 @@ export default function ContactPage() {
               <ul className="mt-6 space-y-6">
                 <li>
                   <p className="text-sm font-medium text-zinc-500">Adresse</p>
-                  <p className="mt-1 text-asbat-black">Zone industrielle, Dakar, Sénégal</p>
+                  <p className="mt-1 text-asbat-black">{settings.address}</p>
                 </li>
                 <li>
                   <p className="text-sm font-medium text-zinc-500">Téléphone</p>
-                  <a href="tel:+221338000000" className="mt-1 block text-asbat-green hover:underline">
-                    +221 33 800 00 00
+                  <a
+                    href={`tel:${settings.phoneHref}`}
+                    className="mt-1 block text-asbat-green hover:underline"
+                  >
+                    {settings.phone}
                   </a>
                 </li>
                 <li>
                   <p className="text-sm font-medium text-zinc-500">Email</p>
-                  <a href="mailto:contact@asbat.sn" className="mt-1 block text-asbat-green hover:underline">
-                    contact@asbat.sn
+                  <a
+                    href={`mailto:${settings.email}`}
+                    className="mt-1 block text-asbat-green hover:underline"
+                  >
+                    {settings.email}
                   </a>
                 </li>
                 <li>
                   <p className="text-sm font-medium text-zinc-500">Horaires</p>
                   <p className="mt-1 text-asbat-black">
-                    Lun – Ven : 8h – 18h
-                    <br />
-                    Sam : 9h – 13h
+                    {hoursLines.map((line, i) => (
+                      <span key={line}>
+                        {i > 0 && <br />}
+                        {line}
+                      </span>
+                    ))}
                   </p>
                 </li>
               </ul>
@@ -55,7 +70,9 @@ export default function ContactPage() {
             </div>
 
             <div className="rounded-2xl border border-zinc-100 bg-white p-8 shadow-sm lg:col-span-3">
-              <h2 className="mb-6 text-xl font-semibold text-asbat-black">Envoyez-nous un message</h2>
+              <h2 className="mb-6 text-xl font-semibold text-asbat-black">
+                Envoyez-nous un message
+              </h2>
               <ContactForm />
             </div>
           </div>

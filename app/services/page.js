@@ -1,14 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
-import { services } from "@/lib/data";
 import { images } from "@/lib/images";
+import { getServices } from "@/lib/supabase/queries";
 
 export const metadata = {
   title: "Services",
 };
 
-export default function ServicesPage() {
+export const revalidate = 60;
+
+export default async function ServicesPage() {
+  const services = await getServices();
   return (
     <>
       <PageHeader

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const stats = [
+const defaultStats = [
   { value: 250, suffix: "+", label: "Projets réalisés" },
   { value: 15, suffix: " ans", label: "D'expérience" },
   { value: 120, suffix: "+", label: "Clients satisfaits" },
@@ -50,7 +50,7 @@ function Counter({ target, suffix }) {
   );
 }
 
-export default function Stats() {
+export default function Stats({ stats = defaultStats }) {
   return (
     <section className="bg-asbat-black py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 sm:px-6 lg:grid-cols-4 lg:px-8">

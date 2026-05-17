@@ -1,17 +1,56 @@
 "use client";
 
 import { useState } from "react";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
+    setError(null);
+
+    const form = new FormData(e.currentTarget);
+    const payload = {
+      nom: form.get("nom"),
+      email: form.get("email"),
+      telephone: form.get("telephone") || null,
+      sujet: form.get("sujet"),
+      message: form.get("message"),
+    };
+
+    const supabase = createSupabaseBrowserClient();
+
+    if (supabase) {
+      const { error: rpcError } = await supabase.rpc("submit_contact_message", {
+        p_nom: payload.nom,
+        p_email: payload.email,
+        p_telephone: payload.telephone,
+        p_sujet: payload.sujet,
+        p_message: payload.message,
+      });
+
+      if (rpcError) {
+        const { error: insertError } = await supabase
+          .from("contact_messages")
+          .insert(payload);
+
+        if (insertError) {
+          setLoading(false);
+          setError(
+            "Impossible d'envoyer le message. Exécutez supabase/fix-contact-rls.sql dans Supabase, ou contactez-nous par téléphone."
+          );
+          return;
+        }
+      }
+    }
+
     setLoading(false);
     setSent(true);
+    e.target.reset();
   }
 
   if (sent) {
@@ -34,6 +73,11 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {error && (
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="nom" className="mb-1.5 block text-sm font-medium text-zinc-700">
