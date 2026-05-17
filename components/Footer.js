@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import { images } from "@/lib/images";
 
 const links = [
   { href: "/services", label: "Services" },
@@ -14,11 +16,14 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <div className="mb-4 flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-asbat-green font-bold text-white">
-                A
-              </span>
-              <span className="text-xl font-bold text-white">ASBAT</span>
+            <div className="mb-4">
+              <Image
+                src={images.logo}
+                alt="ASBAT"
+                width={110}
+                height={36}
+                className="h-8 w-auto rounded bg-white px-2 py-1"
+              />
             </div>
             <p className="text-sm leading-relaxed text-zinc-400">
               Entreprise de construction spécialisée dans le bâtiment, la vente de

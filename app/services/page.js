@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import { services } from "@/lib/data";
+import { images } from "@/lib/images";
 
 export const metadata = {
   title: "Services",
@@ -15,7 +17,30 @@ export default function ServicesPage() {
         subtitle="Construction, matériaux, équipements, conseil technique et architecture — ASBAT couvre l'ensemble de vos besoins."
       />
 
-      <section className="py-20">
+      <section className="py-12">
+        <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:px-8">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
+            <Image
+              src={images.maconnerie}
+              alt="Équipe ASBAT en maçonnerie"
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, 50vw"
+            />
+          </div>
+          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
+            <Image
+              src={images.renovation}
+              alt="Rénovation et gros œuvre"
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, 50vw"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-20 pt-4">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 md:grid-cols-2">
             {services.map((service) => (

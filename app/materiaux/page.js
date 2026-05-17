@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import { materials } from "@/lib/data";
@@ -31,13 +32,24 @@ export default function MateriauxPage() {
             {materials.map((item) => (
               <div
                 key={item.name}
-                className="card-hover rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm"
+                className="card-hover overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm"
               >
-                <span className="rounded-full bg-asbat-green/10 px-3 py-1 text-xs font-semibold text-asbat-green-dark">
-                  {item.category}
-                </span>
-                <h3 className="mt-4 text-lg font-semibold text-asbat-black">{item.name}</h3>
-                <p className="mt-2 text-sm text-zinc-600">{item.description}</p>
+                <div className="relative h-44">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                </div>
+                <div className="p-6">
+                  <span className="rounded-full bg-asbat-green/10 px-3 py-1 text-xs font-semibold text-asbat-green-dark">
+                    {item.category}
+                  </span>
+                  <h3 className="mt-4 text-lg font-semibold text-asbat-black">{item.name}</h3>
+                  <p className="mt-2 text-sm text-zinc-600">{item.description}</p>
+                </div>
               </div>
             ))}
           </div>

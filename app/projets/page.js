@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import { projects } from "@/lib/data";
@@ -30,7 +31,15 @@ export default function ProjetsPage() {
                 key={project.title}
                 className="card-hover overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm"
               >
-                <div className="gradient-hero h-40" />
+                <div className="relative h-48">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
                 <div className="p-6">
                   <div className="flex items-center justify-between gap-2">
                     <span

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import { values } from "@/lib/data";
+import { images } from "@/lib/images";
 
 export const metadata = {
   title: "À propos",
@@ -21,10 +22,11 @@ export default function AProposPage() {
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
               <Image
-                src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80"
+                src={images.chantierFondations}
                 alt="Équipe ASBAT sur chantier"
                 fill
                 className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
             <div>

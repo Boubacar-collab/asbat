@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { images } from "@/lib/images";
 
 const navLinks = [
   { href: "/", label: "Accueil" },
@@ -25,17 +27,19 @@ export default function Header() {
           className="group flex items-center gap-3"
           onClick={() => setOpen(false)}
         >
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-asbat-green font-bold text-white transition-transform group-hover:scale-105">
-            A
+          <span className="rounded-lg bg-white px-2.5 py-1.5 transition-transform group-hover:scale-105">
+            <Image
+              src={images.logo}
+              alt="ASBAT"
+              width={100}
+              height={32}
+              className="h-7 w-auto"
+              priority
+            />
           </span>
-          <div>
-            <span className="block text-lg font-bold tracking-tight text-white">
-              ASBAT
-            </span>
-            <span className="block text-xs text-asbat-green-light">
-              Construction &amp; Architecture
-            </span>
-          </div>
+          <span className="hidden text-xs text-asbat-green-light md:block">
+            Construction &amp; Architecture
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

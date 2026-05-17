@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import Stats from "@/components/Stats";
-import { services } from "@/lib/data";
+import { gallery, services } from "@/lib/data";
+import { images } from "@/lib/images";
 
 export default function Home() {
   return (
@@ -9,11 +10,12 @@ export default function Home() {
       <section className="gradient-hero relative min-h-[85vh] overflow-hidden">
         <div className="absolute inset-0 bg-black/40" />
         <Image
-          src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1920&q=80"
-          alt="Chantier de construction"
+          src={images.hero}
+          alt="Chantier ASBAT — armatures et coffrage"
           fill
-          className="object-cover opacity-30"
+          className="object-cover opacity-40"
           priority
+          sizes="100vw"
         />
         <div className="relative mx-auto flex min-h-[85vh] max-w-7xl flex-col justify-center px-4 py-24 sm:px-6 lg:px-8">
           <span className="animate-fade-up mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-asbat-green-light/30 bg-asbat-green/20 px-4 py-1.5 text-sm font-medium text-asbat-green-light">
@@ -121,12 +123,46 @@ export default function Home() {
             </div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
               <Image
-                src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80"
-                alt="Plans d'architecture"
+                src={images.villaModerne}
+                alt="Villa résidentielle réalisée par ASBAT"
                 fill
                 className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-zinc-200 bg-white py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-10 text-center">
+            <h2 className="text-3xl font-bold text-asbat-black sm:text-4xl">
+              Nos chantiers en images
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-zinc-600">
+              Quelques réalisations et chantiers récents menés par l&apos;équipe ASBAT.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {gallery.map((item) => (
+              <div
+                key={item.src}
+                className="group relative aspect-[4/3] overflow-hidden rounded-2xl"
+              >
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  className="object-cover transition duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-asbat-black/70 to-transparent opacity-0 transition group-hover:opacity-100" />
+                <p className="absolute bottom-3 left-3 right-3 text-sm font-medium text-white opacity-0 transition group-hover:opacity-100">
+                  {item.alt}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
